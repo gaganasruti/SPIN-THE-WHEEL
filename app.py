@@ -39,7 +39,6 @@ bank = {
 " 5. Approximately what percentage of Earth's atmosphere consists of nitrogen gas? "
     ],
 }
-
 # --- Page-level background ---
 st.markdown(
     """
