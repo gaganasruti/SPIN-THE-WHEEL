@@ -5,37 +5,37 @@ import json
 st.set_page_config(page_title="Spin & Solve", page_icon="🎡", layout="centered")
 bank = {
     "easy": [
-       " 1. Which process do green plants use to make their own food? " ,
+       " Which process do green plants use to make their own food? " ,
 
-" 2. Through which plant part does absorption of water mainly take place? ",
+" Through which plant part does absorption of water mainly take place? ",
 
-" 3. Which scientific instrument is used to measure temperature? ",
+"  Which scientific instrument is used to measure temperature? ",
 
-" 4. Which acid is naturally found in lemons? ",
+"  Which acid is naturally found in lemons? ",
 
-" 5. What is known as the basic structural and functional unit of life?",
+" What is known as the basic structural and functional unit of life?",
     ],
     "medium": [
-      " 1. In coordinate geometry, what are the coordinates of the origin?" ,
+      "  In coordinate geometry, what are the coordinates of the origin?" ,
 
-"2. An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? ",
+" An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? ",
 
-" 3. Which of the following formulas correctly represents pressure? ",
+"  Which of the following formulas correctly represents pressure? ",
 
-" 4. Which is a common practical application of a convex mirror?",
+"  Which is a common practical application of a convex mirror?",
 
-" 5. What is the standard SI unit used to measure electric current?" ,
+"  What is the standard SI unit used to measure electric current?" ,
     ],
     "hard": [
-       " 1. If the radius of a circle is doubled, how does its total area change? ",
+       "  If the radius of a circle is doubled, how does its total area change? ",
 
-" 2. Acceleration is defined as the rate of change of which quantity? ",
+"  Acceleration is defined as the rate of change of which quantity? ",
 
-" 3. The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: ",
+"  The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: ",
 
-" 4. What is Heron's formula primarily used to calculate? ",
+"  What is Heron's formula primarily used to calculate? ",
 
-" 5. Approximately what percentage of Earth's atmosphere consists of nitrogen gas? ",
+"  Approximately what percentage of Earth's atmosphere consists of nitrogen gas? ",
     ],
 }
 
@@ -44,7 +44,7 @@ st.markdown(
     """
     <style>
     .stApp {
-        background: radial-gradient(circle at 50% 0%, #3a4460 0%, #262c3f 55%, #1b1f2c 100%);
+       background: radial-gradient(circle at 50% 0%, #1f4a4a 0%, #14302f 55%, #0c1e1e 100%);
     }
     h1, .stCaption, p { color: #eef0f4 !important; }
     </style>
