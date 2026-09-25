@@ -3,48 +3,48 @@ import streamlit.components.v1 as components
 import json
 
 st.set_page_config(page_title="Spin & Solve", page_icon="🎡", layout="centered")
-
 bank = {
     "easy": [
-       " 1. Which process do green plants use to make their own food? "
+       " 1. Which process do green plants use to make their own food? " ,
 
-" 2. Through which plant part does absorption of water mainly take place? "
+" 2. Through which plant part does absorption of water mainly take place? ",
 
-" 3. Which scientific instrument is used to measure temperature? "
+" 3. Which scientific instrument is used to measure temperature? ",
 
-" 4. Which acid is naturally found in lemons? "
+" 4. Which acid is naturally found in lemons? ",
 
-" 5. What is known as the basic structural and functional unit of life?"
+" 5. What is known as the basic structural and functional unit of life?",
     ],
     "medium": [
-      " 1. In coordinate geometry, what are the coordinates of the origin?" 
+      " 1. In coordinate geometry, what are the coordinates of the origin?" ,
 
-"2. An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? "
+"2. An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? ",
 
-" 3. Which of the following formulas correctly represents pressure? "
+" 3. Which of the following formulas correctly represents pressure? ",
 
-" 4. Which is a common practical application of a convex mirror?"
+" 4. Which is a common practical application of a convex mirror?",
 
-" 5. What is the standard SI unit used to measure electric current?" 
+" 5. What is the standard SI unit used to measure electric current?" ,
     ],
     "hard": [
-       " 1. If the radius of a circle is doubled, how does its total area change? "
+       " 1. If the radius of a circle is doubled, how does its total area change? ",
 
-" 2. Acceleration is defined as the rate of change of which quantity? "
+" 2. Acceleration is defined as the rate of change of which quantity? ",
 
-" 3. The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: "
+" 3. The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: ",
 
-" 4. What is Heron's formula primarily used to calculate? "
+" 4. What is Heron's formula primarily used to calculate? ",
 
-" 5. Approximately what percentage of Earth's atmosphere consists of nitrogen gas? "
+" 5. Approximately what percentage of Earth's atmosphere consists of nitrogen gas? ",
     ],
 }
+
 # --- Page-level background ---
 st.markdown(
     """
     <style>
     .stApp {
-        background: radial-gradient(circle at 50% 0%, #1c2333 0%, #0c0e15 55%, #08090d 100%);
+        background: radial-gradient(circle at 50% 0%, #3a4460 0%, #262c3f 55%, #1b1f2c 100%);
     }
     h1, .stCaption, p { color: #eef0f4 !important; }
     </style>
@@ -76,7 +76,7 @@ wheel_html = f"""
   .pointer{{
     position:absolute; top:-16px; left:50%; transform:translateX(-50%); z-index:5;
     width:0; height:0; border-left:18px solid transparent; border-right:18px solid transparent;
-    border-top:30px solid #0d0d0d; filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));
+    border-top:30px solid #2d6cdf; filter:drop-shadow(0 2px 3px rgba(0,0,0,.4));
   }}
   svg#wheel{{
     position:relative; z-index:2; width:100%; height:100%; display:block; border-radius:50%;
