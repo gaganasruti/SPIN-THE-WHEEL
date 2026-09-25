@@ -45,14 +45,13 @@ st.markdown(
     """
     <style>
     .stApp {
-        background: linear-gradient(135deg, #ffe3ec 0%, #fff6db 35%, #dcf5ea 65%, #e3ecff 100%);
+       background: linear-gradient(135deg, #ffe3ec 0%, #fff6db 35%, #dcf5ea 65%, #e3ecff 100%);
     }
     h1, .stCaption, p { color: #3a3550 !important; }
     </style>
     """,
     unsafe_allow_html=True,
 )
- 
 st.title("🎡 Spin & Solve")
 st.caption("Click the blue SPIN hub in the middle of the wheel.")
  
