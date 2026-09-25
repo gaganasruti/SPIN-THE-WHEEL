@@ -1,10 +1,8 @@
-import streamlit
+
 import streamlit.components.v1 as components
 import json
 import base64
 import os
-
-st = streamlit
 
 
 
@@ -54,10 +52,6 @@ bank = {
 # LOAD LOGOS
 # =========================================================
 
-# =========================================================
-# LOAD LOGOS
-# =========================================================
-
 def get_base64_image(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
@@ -75,8 +69,15 @@ FOUNDATION_LOGO_PATH = os.path.join(
     "HOjbKMObQAIrYlw-removebg-preview.png"
 )
 
-csir_logo = get_base64_image(CSIR_LOGO_PATH)
+if not os.path.exists(CSIR_LOGO_PATH):
+    st.error("CSIR logo not found. Keep 'CSIR-Logo-removebg-preview.png' in the same folder as app.py.")
+    st.stop()
 
+if not os.path.exists(FOUNDATION_LOGO_PATH):
+    st.error("85th Foundation logo not found. Keep 'HOjbKMObQAIrYlw-removebg-preview.png' in the same folder as app.py.")
+    st.stop()
+
+csir_logo = get_base64_image(CSIR_LOGO_PATH)
 foundation_logo = get_base64_image(FOUNDATION_LOGO_PATH)
 
 # =========================================================
@@ -738,6 +739,11 @@ svg#wheel {
             >
                 Click SPIN to get your question.
             </p>
+
+            <div class="score">
+                Questions asked:
+                <span id="count">0</span>
+            </div>
 
            
         </div>
