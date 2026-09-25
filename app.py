@@ -42,7 +42,7 @@ bank = {
 }
 
 # =========================================================
-# CHECK & DISPLAY LOGOS VIA NATIVE STREAMLIT
+# DISPLAY LOGOS VIA NATIVE STREAMLIT
 # =========================================================
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -87,7 +87,7 @@ st.markdown(
 st.title("🎡 QUIZ")
 
 # =========================================================
-# WHEEL HTML
+# WHEEL HTML WITH RESTORED SPIN LOGIC
 # =========================================================
 
 wheel_html = """
@@ -150,7 +150,7 @@ svg#wheel {
     display: block;
     border-radius: 50%;
     box-shadow: 0 0 0 9px #ffffff, 0 18px 45px rgba(90, 80, 120, 0.25);
-    transition: transform 4.2s cubic-bezier(.17, .67, .16, 1);
+    transition: transform 4.2s cubic-bezier(0.15, 0.85, 0.12, 1);
 }
 
 .seg-label {
@@ -163,7 +163,7 @@ svg#wheel {
 .label-g {
     transform-box: fill-box;
     transform-origin: 50% 50%;
-    transition: transform 4.2s cubic-bezier(.17, .67, .16, 1);
+    transition: transform 4.2s cubic-bezier(0.15, 0.85, 0.12, 1);
 }
 
 .hub {
@@ -256,8 +256,6 @@ svg#wheel {
             <div class="hub" id="hub">SPIN</div>
         </div>
     </div>
-
-  
 </div>
 
 <script>
@@ -303,12 +301,13 @@ hub.addEventListener("click", function () {
     const names = Object.keys(bank);
     const category = names[Math.floor(Math.random() * names.length)];
     const question = nextQuestion(category);
+    
+    // Calculate rotation angle to align chosen category center with the top pointer
     const center = centers[category];
-    const targetMod = (360 - center + 360) % 360;
-    const extraSpins = 5 + Math.floor(Math.random() * 3);
-    const jitter = (Math.random() * 20) - 10;
-
-    currentRotation = currentRotation - (currentRotation % 360) + extraSpins * 360 + targetMod + jitter;
+    const targetAngle = 360 - center;
+    const extraSpins = 360 * 6; // 6 full rotations
+    
+    currentRotation += extraSpins + ((targetAngle - (currentRotation % 360) + 360) % 360);
 
     wheel.style.transform = "rotate(" + currentRotation + "deg)";
 
@@ -323,7 +322,6 @@ hub.addEventListener("click", function () {
         result.innerHTML =
             '<span class="badge ' + category + '">' + category.toUpperCase() + '</span>' +
             '<div class="question">' + question + '</div>' +
-            '<div class="score">Questions asked: <span>' + asked + '</span></div>';
 
         result.classList.add("show");
         spinning = false;
