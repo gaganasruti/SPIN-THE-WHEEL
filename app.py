@@ -209,6 +209,4 @@ wheel_html = f"""
 </body>
 </html>
 """
- 
 components.html(wheel_html, height=740, scrolling=False)
-
