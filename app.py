@@ -1,4 +1,4 @@
-import streamlit as st
+
 import streamlit.components.v1 as components
 import json
 import base64
@@ -732,6 +732,7 @@ svg#wheel {
                 Click SPIN to get your question.
             </p>
 
+           
         </div>
 
 
@@ -991,6 +992,13 @@ hub.addEventListener(
 
                     '<div class="question">' +
                     question +
+                    '</div>' +
+
+                    '<div class="score">' +
+                    'Questions asked: ' +
+                    '<span>' +
+                    asked +
+                    '</span>' +
                     '</div>';
 
 
@@ -1003,11 +1011,9 @@ hub.addEventListener(
 
                 spinning = false;
 
-
                 hub.classList.remove(
                     "disabled"
                 );
-
 
                 hub.textContent =
                     "SPIN";
