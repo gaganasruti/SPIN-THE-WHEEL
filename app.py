@@ -54,6 +54,10 @@ bank = {
 # LOAD LOGOS
 # =========================================================
 
+# =========================================================
+# LOAD LOGOS
+# =========================================================
+
 def get_base64_image(path):
     with open(path, "rb") as f:
         return base64.b64encode(f.read()).decode("utf-8")
@@ -71,9 +75,9 @@ FOUNDATION_LOGO_PATH = os.path.join(
     "HOjbKMObQAIrYlw-removebg-preview.png"
 )
 
-csir_logo = get_base64_image(https://github.com/gaganasruti/SPIN-THE-WHEEL/blob/main/CSIR-Logo-removebg-preview.png?raw=true)
-foundation_logo = get_base64_image(https://github.com/gaganasruti/SPIN-THE-WHEEL/blob/main/HOjbKMObQAIrYlw-removebg-preview.png?raw=true)
+csir_logo = get_base64_image(CSIR_LOGO_PATH)
 
+foundation_logo = get_base64_image(FOUNDATION_LOGO_PATH)
 
 # =========================================================
 # PAGE BACKGROUND + LOGOS
