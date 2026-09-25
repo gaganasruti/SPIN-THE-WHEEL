@@ -63,7 +63,7 @@ wheel_html = f"""
   *{{ box-sizing:border-box; }}
   body{{ margin:0; font-family:'Poppins',sans-serif; background:transparent; }}
   .wrap{{ display:flex; flex-direction:column; align-items:center; padding-top:14px; }}
- 
+ 
   .wheel-wrap{{
     position:relative; width:420px; height:420px; max-width:90vw; max-height:90vw; margin-bottom:1.4rem;
   }}
@@ -98,7 +98,7 @@ wheel_html = f"""
   .hub:hover{{ filter:brightness(1.06); }}
   .hub:active{{ transform:translate(-50%,-50%) scale(.94); }}
   .hub.disabled{{ opacity:.65; cursor:default; pointer-events:none; }}
- 
+ 
   .result{{
     width:420px; max-width:90vw; background:#ffffff;
     border-radius:18px; padding:1.3rem 1.6rem; border:1px solid #f0e4ee;
@@ -135,7 +135,7 @@ wheel_html = f"""
   </div>
   <div class="score">Questions asked: <span id="count">0</span></div>
 </div>
- 
+ 
 <script>
   const bank = {json.dumps(bank)};
   const centers = {{ easy: 60, medium: 180, hard: 300 }};
@@ -144,15 +144,15 @@ wheel_html = f"""
   const result = document.getElementById('result');
   const countEl = document.getElementById('count');
   const labelGroups = document.querySelectorAll('.label-g');
- 
+
   let currentRotation = 0;
   let spinning = false;
   let asked = 0;
- 
+
   // per-category "shuffle bag": each question is asked once before any repeat
   const pools = {{}};
   Object.keys(bank).forEach(cat => {{ pools[cat] = []; }});
- 
+ 
   function shuffledCopy(arr) {{
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {{
@@ -161,37 +161,37 @@ wheel_html = f"""
     }}
     return a;
   }}
- 
+  
   function nextQuestion(category) {{
     if (pools[category].length === 0) {{
       pools[category] = shuffledCopy(bank[category]);
     }}
     return pools[category].pop();
   }}
- 
+  
   hub.addEventListener('click', () => {{
     if (spinning) return;
     spinning = true;
     hub.classList.add('disabled');
     hub.textContent = '...';
     result.classList.remove('show');
- 
+ 
     const names = Object.keys(bank);
     const category = names[Math.floor(Math.random() * names.length)];
     const question = nextQuestion(category);
- 
+ 
     const center = centers[category];
     const targetMod = (360 - center + 360) % 360;
     const extraSpins = 5 + Math.floor(Math.random() * 3);
     const jitter = (Math.random() * 20) - 10;
     currentRotation = currentRotation - (currentRotation % 360) + extraSpins * 360 + targetMod + jitter;
- 
+ 
     wheel.style.transform = `rotate(${{currentRotation}}deg)`;
     // counter-rotate every label around its own center so it stays upright
     labelGroups.forEach(g => {{
       g.style.transform = `rotate(${{-currentRotation}}deg)`;
     }});
- 
+ 
     setTimeout(() => {{
       asked++;
       countEl.textContent = asked;
