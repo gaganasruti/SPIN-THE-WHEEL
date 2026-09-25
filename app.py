@@ -54,7 +54,6 @@ st.markdown(
 )
 st.title("🎡 Spin & Solve")
 st.caption("Click the blue SPIN hub in the middle of the wheel.")
- 
 wheel_html = f"""
 <!DOCTYPE html>
 <html>
