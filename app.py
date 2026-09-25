@@ -329,33 +329,21 @@ svg#wheel {
                 <path d="M150,150 L271.24,220 A140,140 0 0,1 28.76,220 Z" fill="#f1c40f"></path>
                 <path d="M150,150 L28.76,220 A140,140 0 0,1 150,10 Z" fill="#e74c3c"></path>
 
-                <g class="label-g">
-                    <text x="223.6" y="107.5" text-anchor="middle" class="seg-label">EASY</text>
-                </g>
-                <g class="label-g">
-                    <text x="150" y="240" text-anchor="middle" class="seg-label">MEDIUM</text>
-                </g>
-                <g class="label-g">
-                    <text x="76.4" y="107.5" text-anchor="middle" class="seg-label">HARD</text>
-                </g>
+                <g class="label-g"><text x="223.6" y="107.5" text-anchor="middle" class="seg-label">EASY</text></g>
+                <g class="label-g"><text x="150" y="240" text-anchor="middle" class="seg-label">MEDIUM</text></g>
+                <g class="label-g"><text x="76.4" y="107.5" text-anchor="middle" class="seg-label">HARD</text></g>
             </svg>
 
             <div class="hub" id="hub">SPIN</div>
         </div>
     </div>
 
-  
-    </div>
 </div>
 
 <script>
 const bank = __QUESTION_BANK__;
 
-const centers = {
-    easy: 60,
-    medium: 180,
-    hard: 300
-};
+const centers = { easy: 60, medium: 180, hard: 300 };
 
 const wheel = document.getElementById("wheel");
 const hub = document.getElementById("hub");
@@ -374,9 +362,7 @@ function shuffledCopy(arr) {
     const a = arr.slice();
     for (let i = a.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        const temp = a[i];
-        a[i] = a[j];
-        a[j] = temp;
+        const temp = a[i]; a[i] = a[j]; a[j] = temp;
     }
     return a;
 }
@@ -431,6 +417,7 @@ hub.addEventListener("click", function () {
 </body>
 </html>
 """
+
 
 # =========================================================
 # INSERT QUESTION BANK
