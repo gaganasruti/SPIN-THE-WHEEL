@@ -6,85 +6,129 @@ st.set_page_config(page_title="Spin & Solve", page_icon="🎡", layout="centered
 
 bank = {
     "easy": [
-        "Which process makes food in green plants?",
-        "Plants absorb water mainly through?",
-        "Which instrument measures temperature?",
-        "Which acid is present in lemon?",
-        "Basic unit of life is?",
+       " 1. Which process do green plants use to make their own food? "
+
+" 2. Through which plant part does absorption of water mainly take place? "
+
+" 3. Which scientific instrument is used to measure temperature? "
+
+" 4. Which acid is naturally found in lemons? "
+
+" 5. What is known as the basic structural and functional unit of life?"
     ],
     "medium": [
-        "Origin in coordinate geometry?",
-        "Velocity changes when?",
-        "Pressure = ?",
-        "Convex mirror is used in?",
-        "Electric current is measured in?",
+      " 1. In coordinate geometry, what are the coordinates of the origin?" 
+
+"2. An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change?
+
+" 3. Which of the following formulas correctly represents pressure? "
+
+" 4. Which is a common practical application of a convex mirror?"
+
+" 5. What is the standard SI unit used to measure electric current?" 
     ],
     "hard": [
-        "If radius doubles, area becomes?",
-        "Acceleration is change in?",
-        "Mass is neither created nor destroyed, which law states this?",
-        "Heron's formula gives?",
-        "Nitrogen in atmosphere is about ______ % ?",
+       " 1. If the radius of a circle is doubled, how does its total area change? "
+
+" 2. Acceleration is defined as the rate of change of which quantity? "
+
+" 3. The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: "
+
+" 4. What is Heron's formula primarily used to calculate? "
+
+" 5. Approximately what percentage of Earth's atmosphere consists of nitrogen gas? "
     ],
 }
 
-st.title("Spin & Solve")
-st.caption("Click the blue SPIN button in the middle of the wheel.")
+# --- Page-level background ---
+st.markdown(
+    """
+    <style>
+    .stApp {
+        background: radial-gradient(circle at 50% 0%, #1c2333 0%, #0c0e15 55%, #08090d 100%);
+    }
+    h1, .stCaption, p { color: #eef0f4 !important; }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.title("🎡 Spin & Solve")
+st.caption("Click the blue SPIN hub in the middle of the wheel.")
 
 wheel_html = f"""
 <!DOCTYPE html>
 <html>
 <head>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  body{{ margin:0; font-family:'Segoe UI',sans-serif; background:transparent; }}
-  .wrap{{ display:flex; flex-direction:column; align-items:center; padding-top:10px; }}
-  .wheel-wrap{{ position:relative; width:420px; height:420px; max-width:90vw; max-height:90vw; margin-bottom:1.2rem;}}
+  *{{ box-sizing:border-box; }}
+  body{{ margin:0; font-family:'Poppins',sans-serif; background:transparent; }}
+  .wrap{{ display:flex; flex-direction:column; align-items:center; padding-top:14px; }}
+
+  .wheel-wrap{{
+    position:relative; width:420px; height:420px; max-width:90vw; max-height:90vw; margin-bottom:1.4rem;
+  }}
+  .glow{{
+    position:absolute; inset:-40px; border-radius:50%;
+    background:radial-gradient(circle, rgba(74,134,245,0.35) 0%, rgba(74,134,245,0) 70%);
+    z-index:0;
+  }}
   .pointer{{
     position:absolute; top:-16px; left:50%; transform:translateX(-50%); z-index:5;
     width:0; height:0; border-left:18px solid transparent; border-right:18px solid transparent;
     border-top:30px solid #0d0d0d; filter:drop-shadow(0 2px 3px rgba(0,0,0,.5));
   }}
   svg#wheel{{
-    width:100%; height:100%; display:block; border-radius:50%;
-    box-shadow:0 0 0 8px #262b38, 0 14px 40px rgba(0,0,0,.5);
+    position:relative; z-index:2; width:100%; height:100%; display:block; border-radius:50%;
+    box-shadow:0 0 0 8px #262b38, 0 18px 46px rgba(0,0,0,.55);
     transition: transform 4.2s cubic-bezier(.17,.67,.16,1);
   }}
   .seg-label{{ font-weight:800; font-size:18px; fill:#0d0f15; letter-spacing:.5px; }}
+  .label-g{{
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    transition: transform 4.2s cubic-bezier(.17,.67,.16,1);
+  }}
   .hub{{
-    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:104px; height:104px;
-    border-radius:50%; background:radial-gradient(circle at 35% 30%,#4a86f5,#2d6cdf 75%);
+    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:106px; height:106px;
+    border-radius:50%; background:radial-gradient(circle at 35% 30%,#5a94ff,#2d6cdf 75%);
     border:4px solid #1c3f8f; color:#fff; font-weight:800; font-size:1.1rem; letter-spacing:1px;
     display:flex; align-items:center; justify-content:center; z-index:6; cursor:pointer;
-    box-shadow:0 4px 16px rgba(0,0,0,.5); transition:transform .15s ease; user-select:none;
+    box-shadow:0 4px 18px rgba(0,0,0,.55); transition:transform .15s ease; user-select:none;
   }}
+  .hub:hover{{ filter:brightness(1.08); }}
   .hub:active{{ transform:translate(-50%,-50%) scale(.94); }}
   .hub.disabled{{ opacity:.6; cursor:default; pointer-events:none; }}
+
   .result{{
-    width:420px; max-width:90vw; background:#1b1f2a; border-radius:16px; padding:1.2rem 1.5rem;
-    border:1px solid #2a2f3d; min-height:100px; color:#eef0f4;
-    display:flex; flex-direction:column; justify-content:center; gap:.5rem;
+    width:420px; max-width:90vw; background:linear-gradient(160deg,#1c2130,#151924);
+    border-radius:18px; padding:1.3rem 1.6rem; border:1px solid #2a2f3d;
+    min-height:100px; color:#eef0f4; box-shadow:0 10px 30px rgba(0,0,0,.35);
+    display:flex; flex-direction:column; justify-content:center; gap:.55rem;
     opacity:0; transition:opacity .4s ease;
   }}
   .result.show{{ opacity:1; }}
-  .badge{{ align-self:flex-start; padding:.25rem .7rem; border-radius:999px; font-size:.78rem; font-weight:700; color:#0d0f15; }}
+  .badge{{ align-self:flex-start; padding:.28rem .8rem; border-radius:999px; font-size:.78rem; font-weight:700; color:#0d0f15; }}
   .badge.easy{{background:#2ecc71;}} .badge.medium{{background:#f1c40f;}} .badge.hard{{background:#e74c3c;}}
-  .question{{ font-size:1.1rem; line-height:1.5; }}
+  .question{{ font-size:1.12rem; line-height:1.55; }}
   .placeholder{{ color:#9aa3b5; font-size:.95rem; }}
-  .score{{ margin-top:.8rem; color:#9aa3b5; font-size:.9rem; }}
+  .score{{ margin-top:.9rem; color:#9aa3b5; font-size:.9rem; }}
   .score span{{ color:#eef0f4; font-weight:700; }}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="wheel-wrap">
+    <div class="glow"></div>
     <div class="pointer"></div>
     <svg id="wheel" viewBox="0 0 300 300">
       <path d="M150,150 L150,10 A140,140 0 0,1 271.24,220 Z" fill="#2ecc71"></path>
       <path d="M150,150 L271.24,220 A140,140 0 0,1 28.76,220 Z" fill="#f1c40f"></path>
       <path d="M150,150 L28.76,220 A140,140 0 0,1 150,10 Z" fill="#e74c3c"></path>
-      <text x="223.6" y="107.5" text-anchor="middle" class="seg-label">EASY</text>
-      <text x="150" y="240" text-anchor="middle" class="seg-label">MEDIUM</text>
-      <text x="76.4" y="107.5" text-anchor="middle" class="seg-label">HARD</text>
+      <g class="label-g"><text x="223.6" y="107.5" text-anchor="middle" class="seg-label">EASY</text></g>
+      <g class="label-g"><text x="150" y="240" text-anchor="middle" class="seg-label">MEDIUM</text></g>
+      <g class="label-g"><text x="76.4" y="107.5" text-anchor="middle" class="seg-label">HARD</text></g>
     </svg>
     <div class="hub" id="hub">SPIN</div>
   </div>
@@ -101,10 +145,31 @@ wheel_html = f"""
   const hub = document.getElementById('hub');
   const result = document.getElementById('result');
   const countEl = document.getElementById('count');
+  const labelGroups = document.querySelectorAll('.label-g');
 
   let currentRotation = 0;
   let spinning = false;
   let asked = 0;
+
+  // per-category "shuffle bag": each question is asked once before any repeat
+  const pools = {{}};
+  Object.keys(bank).forEach(cat => {{ pools[cat] = []; }});
+
+  function shuffledCopy(arr) {{
+    const a = arr.slice();
+    for (let i = a.length - 1; i > 0; i--) {{
+      const j = Math.floor(Math.random() * (i + 1));
+      [a[i], a[j]] = [a[j], a[i]];
+    }}
+    return a;
+  }}
+
+  function nextQuestion(category) {{
+    if (pools[category].length === 0) {{
+      pools[category] = shuffledCopy(bank[category]);
+    }}
+    return pools[category].pop();
+  }}
 
   hub.addEventListener('click', () => {{
     if (spinning) return;
@@ -115,14 +180,19 @@ wheel_html = f"""
 
     const names = Object.keys(bank);
     const category = names[Math.floor(Math.random() * names.length)];
-    const question = bank[category][Math.floor(Math.random() * bank[category].length)];
+    const question = nextQuestion(category);
 
     const center = centers[category];
     const targetMod = (360 - center + 360) % 360;
     const extraSpins = 5 + Math.floor(Math.random() * 3);
     const jitter = (Math.random() * 20) - 10;
     currentRotation = currentRotation - (currentRotation % 360) + extraSpins * 360 + targetMod + jitter;
+
     wheel.style.transform = `rotate(${{currentRotation}}deg)`;
+    // counter-rotate every label around its own center so it stays upright
+    labelGroups.forEach(g => {{
+      g.style.transform = `rotate(${{-currentRotation}}deg)`;
+    }});
 
     setTimeout(() => {{
       asked++;
@@ -142,4 +212,4 @@ wheel_html = f"""
 </html>
 """
 
-components.html(wheel_html, height=700, scrolling=False)
+components.html(wheel_html, height=740, scrolling=False)
