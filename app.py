@@ -90,7 +90,7 @@ wheel_html = f"""
     const rotation = extraSpins * 360 + targetMod + jitter;
     requestAnimationFrame(() => {{
       wheel.style.transition = 'transform 4.2s cubic-bezier(.17,.67,.16,1)';
-      wheel.style.transform = `rotate(${rotation}deg)`;
+      wheel.style.transform = 'rotate(' + rotation + 'deg)';
     }});
   }});
 </script>
