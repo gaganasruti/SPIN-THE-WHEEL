@@ -44,7 +44,7 @@ st.markdown(
     """
     <style>
     .stApp {
-       background: radial-gradient(circle at 50% 0%, #1f4a4a 0%, #14302f 55%, #0c1e1e 100%);
+      background: radial-gradient(circle at 50% 0%, #4a3820 0%, #2a2318 55%, #17140e 100%);
     }
     h1, .stCaption, p { color: #eef0f4 !important; }
     </style>
