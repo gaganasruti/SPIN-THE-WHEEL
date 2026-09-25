@@ -51,8 +51,17 @@ def get_base64_image(path):
         return base64.b64encode(f.read()).decode()
 
 
-csir_logo = get_base64_image("/mnt/data/CSIR-Logo-removebg-preview.png")
-foundation_logo = get_base64_image("/mnt/data/HOjbKMObQAIrYlw-removebg-preview.png")
+import os
+
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
+csir_logo = get_base64_image(
+    os.path.join(BASE_DIR, "CSIR-Logo-removebg-preview.png")
+)
+
+foundation_logo = get_base64_image(
+    os.path.join(BASE_DIR, "HOjbKMObQAIrYlw-removebg-preview.png")
+)
 
 
 # ---------------------------------------------------------
