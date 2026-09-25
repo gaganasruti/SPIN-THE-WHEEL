@@ -40,7 +40,7 @@ bank = {
 }
 
 # --- Page-level background ---
-# --- Page-level background: soft pastel ---
+
 st.markdown(
     """
     <style>
