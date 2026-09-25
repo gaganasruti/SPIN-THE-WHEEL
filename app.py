@@ -212,3 +212,4 @@ wheel_html = f"""
 """
  
 components.html(wheel_html, height=740, scrolling=False)
+
