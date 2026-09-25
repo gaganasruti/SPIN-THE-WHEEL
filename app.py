@@ -10,7 +10,7 @@ import os
 # =========================================================
 
 st.set_page_config(
-    page_title="Spin & Solve",
+    page_title="Spin the Wheel",
     page_icon="🎡",
     layout="wide"
 )
@@ -23,44 +23,32 @@ st.set_page_config(
 bank = {
     "easy": [
         " Which process do green plants use to make their own food? ",
-
         " Through which plant part does absorption of water mainly take place? ",
-
         " Which scientific instrument is used to measure temperature? ",
-
         " Which acid is naturally found in lemons? ",
-
         " What is known as the basic structural and functional unit of life?",
     ],
 
     "medium": [
         " In coordinate geometry, what are the coordinates of the origin? ",
-
         " An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? ",
-
         " Which of the following formulas correctly represents pressure? ",
-
         " Which is a common practical application of a convex mirror? ",
-
         " What is the standard SI unit used to measure electric current? ",
     ],
 
     "hard": [
         " If the radius of a circle is doubled, how does its total area change? ",
-
         " Acceleration is defined as the rate of change of which quantity? ",
-
         " The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: ",
-
         " What is Heron's formula primarily used to calculate? ",
-
         " Approximately what percentage of Earth's atmosphere consists of nitrogen gas? ",
     ],
 }
 
 
 # =========================================================
-# LOGO LOADING
+# LOAD LOGOS
 # =========================================================
 
 def get_base64_image(path):
@@ -68,11 +56,8 @@ def get_base64_image(path):
         return base64.b64encode(f.read()).decode("utf-8")
 
 
-# Get the folder where app.py is located
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
-
-# Images are directly in the same folder as app.py
 CSIR_LOGO_PATH = os.path.join(
     BASE_DIR,
     "CSIR-Logo-removebg-preview.png"
@@ -83,10 +68,7 @@ FOUNDATION_LOGO_PATH = os.path.join(
     "HOjbKMObQAIrYlw-removebg-preview.png"
 )
 
-
-# Convert images to Base64
 csir_logo = get_base64_image(CSIR_LOGO_PATH)
-
 foundation_logo = get_base64_image(FOUNDATION_LOGO_PATH)
 
 
@@ -114,45 +96,32 @@ st.markdown(
         color: #3a3550 !important;
     }}
 
-    /* CSIR LOGO - TOP LEFT */
-
     .top-left-logo {{
         position: fixed;
         top: 18px;
         left: 25px;
-
         width: 105px;
         height: 105px;
-
         object-fit: contain;
-
         z-index: 9999;
     }}
-
-
-    /* 85th FOUNDATION DAY LOGO - TOP RIGHT */
 
     .top-right-logo {{
         position: fixed;
         top: 20px;
         right: 25px;
-
         width: 125px;
         height: 90px;
-
         object-fit: contain;
-
         z-index: 9999;
     }}
 
     </style>
 
-
     <img
         class="top-left-logo"
         src="data:image/png;base64,{csir_logo}"
     >
-
 
     <img
         class="top-right-logo"
@@ -172,9 +141,14 @@ st.title("🎡 QUIZ")
 
 # =========================================================
 # WHEEL HTML
+#
+# IMPORTANT:
+# This is NOT an f-string.
+# This prevents JavaScript { } from causing
+# Python f-string syntax errors.
 # =========================================================
 
-wheel_html = f"""
+wheel_html = """
 <!DOCTYPE html>
 
 <html lang="en">
@@ -188,40 +162,33 @@ wheel_html = f"""
     content="width=device-width, initial-scale=1.0"
 >
 
-
 <link
     href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap"
     rel="stylesheet"
 >
 
-
 <style>
 
-* {{
+* {
     box-sizing: border-box;
-}}
+}
 
-
-body {{
+body {
     margin: 0;
-
     font-family: 'Poppins', sans-serif;
-
     background: transparent;
-}}
+}
 
 
 /* =====================================================
    MAIN TWO-HALF LAYOUT
    ===================================================== */
 
-.main-area {{
+.main-area {
     width: 100%;
-
     min-height: 680px;
 
     display: grid;
-
     grid-template-columns: 1fr 1fr;
 
     gap: 45px;
@@ -229,14 +196,14 @@ body {{
     align-items: center;
 
     padding: 20px 35px 30px 35px;
-}}
+}
 
 
 /* =====================================================
-   LEFT HALF - WHEEL
+   LEFT HALF
    ===================================================== */
 
-.left-side {{
+.left-side {
     display: flex;
 
     flex-direction: column;
@@ -246,14 +213,14 @@ body {{
     justify-content: center;
 
     width: 100%;
-}}
+}
 
 
 /* =====================================================
-   RIGHT HALF - QUESTION
+   RIGHT HALF
    ===================================================== */
 
-.right-side {{
+.right-side {
     display: flex;
 
     flex-direction: column;
@@ -263,14 +230,14 @@ body {{
     justify-content: center;
 
     width: 100%;
-}}
+}
 
 
 /* =====================================================
    WHEEL
    ===================================================== */
 
-.wheel-wrap {{
+.wheel-wrap {
     position: relative;
 
     width: 540px;
@@ -280,12 +247,10 @@ body {{
     max-height: 80vh;
 
     margin-bottom: 1.4rem;
-}}
+}
 
 
-/* Wheel glow */
-
-.glow {{
+.glow {
     position: absolute;
 
     inset: -50px;
@@ -300,16 +265,13 @@ body {{
         );
 
     z-index: 0;
-}}
+}
 
 
-/* Pointer */
-
-.pointer {{
+.pointer {
     position: absolute;
 
     top: -18px;
-
     left: 50%;
 
     transform: translateX(-50%);
@@ -328,12 +290,10 @@ body {{
         drop-shadow(
             0 2px 3px rgba(0, 0, 0, 0.2)
         );
-}}
+}
 
 
-/* Wheel SVG */
-
-svg#wheel {{
+svg#wheel {
     position: relative;
 
     z-index: 2;
@@ -351,12 +311,10 @@ svg#wheel {{
 
     transition:
         transform 4.2s cubic-bezier(.17, .67, .16, 1);
-}}
+}
 
 
-/* Segment text */
-
-.seg-label {{
+.seg-label {
     font-weight: 800;
 
     font-size: 19px;
@@ -364,24 +322,24 @@ svg#wheel {{
     fill: #2d2a3a;
 
     letter-spacing: 0.5px;
-}}
+}
 
 
-.label-g {{
+.label-g {
     transform-box: fill-box;
 
     transform-origin: 50% 50%;
 
     transition:
         transform 4.2s cubic-bezier(.17, .67, .16, 1);
-}}
+}
 
 
 /* =====================================================
-   CENTER SPIN BUTTON
+   SPIN BUTTON
    ===================================================== */
 
-.hub {{
+.hub {
     position: absolute;
 
     top: 50%;
@@ -428,35 +386,35 @@ svg#wheel {{
         transform 0.15s ease;
 
     user-select: none;
-}}
+}
 
 
-.hub:hover {{
+.hub:hover {
     filter: brightness(1.06);
-}}
+}
 
 
-.hub:active {{
+.hub:active {
     transform:
         translate(-50%, -50%)
         scale(0.94);
-}}
+}
 
 
-.hub.disabled {{
+.hub.disabled {
     opacity: 0.65;
 
     cursor: default;
 
     pointer-events: none;
-}}
+}
 
 
 /* =====================================================
-   QUESTION / RESULT CARD
+   QUESTION CARD
    ===================================================== */
 
-.result {{
+.result {
     width: 100%;
 
     max-width: 600px;
@@ -488,17 +446,15 @@ svg#wheel {{
 
     transition:
         opacity 0.4s ease;
-}}
+}
 
 
-.result.show {{
+.result.show {
     opacity: 1;
-}}
+}
 
 
-/* Difficulty badge */
-
-.badge {{
+.badge {
     align-self: flex-start;
 
     padding: 0.35rem 0.9rem;
@@ -510,49 +466,43 @@ svg#wheel {{
     font-weight: 700;
 
     color: #2d2a3a;
-}}
+}
 
 
-.badge.easy {{
+.badge.easy {
     background: #2ecc71;
-}}
+}
 
 
-.badge.medium {{
+.badge.medium {
     background: #f1c40f;
-}}
+}
 
 
-.badge.hard {{
+.badge.hard {
     background: #e74c3c;
-}}
+}
 
 
-/* Question text */
-
-.question {{
+.question {
     font-size: 1.25rem;
 
     line-height: 1.65;
 
     color: #2d2a3a;
-}}
+}
 
 
-/* Initial message */
-
-.placeholder {{
+.placeholder {
     color: #8b8599;
 
     font-size: 1.05rem;
 
     text-align: center;
-}}
+}
 
 
-/* Question counter */
-
-.score {{
+.score {
     margin-top: 1.1rem;
 
     color: #8b8599;
@@ -560,95 +510,91 @@ svg#wheel {{
     font-size: 0.95rem;
 
     text-align: center;
-}}
+}
 
 
-.score span {{
+.score span {
     color: #3a3550;
 
     font-weight: 700;
-}}
+}
 
 
 /* =====================================================
-   TABLET / SMALL SCREEN
+   TABLET
    ===================================================== */
 
-@media (max-width: 900px) {{
+@media (max-width: 900px) {
 
-    .main-area {{
+    .main-area {
         grid-template-columns: 1fr;
 
         gap: 25px;
 
         padding: 10px 15px 30px 15px;
-    }}
+    }
 
 
-    .wheel-wrap {{
+    .wheel-wrap {
         width: 460px;
-
         height: 460px;
-    }}
+    }
 
 
-    .right-side {{
+    .right-side {
         width: 100%;
-    }}
+    }
 
 
-    .result {{
+    .result {
         max-width: 600px;
-    }}
+    }
 
-}}
+}
 
 
 /* =====================================================
    MOBILE
    ===================================================== */
 
-@media (max-width: 550px) {{
+@media (max-width: 550px) {
 
-    .main-area {{
+    .main-area {
         padding: 10px;
-    }}
+    }
 
 
-    .wheel-wrap {{
+    .wheel-wrap {
         width: 360px;
-
         height: 360px;
-    }}
+    }
 
 
-    .hub {{
+    .hub {
         width: 100px;
-
         height: 100px;
 
         font-size: 1rem;
-    }}
+    }
 
 
-    .seg-label {{
+    .seg-label {
         font-size: 16px;
-    }}
+    }
 
 
-    .result {{
+    .result {
         padding: 1.4rem;
 
         min-height: 220px;
-    }}
+    }
 
 
-    .question {{
+    .question {
         font-size: 1.05rem;
-    }}
+    }
 
-}}
-
+}
 
 </style>
 
@@ -659,66 +605,51 @@ svg#wheel {{
 
 
 <!-- =====================================================
-     TWO HALF PAGE
+     TWO HALF LAYOUT
      ===================================================== -->
 
 <div class="main-area">
 
 
     <!-- =================================================
-         LEFT HALF
+         LEFT: WHEEL
          ================================================= -->
 
     <div class="left-side">
 
-
         <div class="wheel-wrap">
 
-
             <div class="glow"></div>
-
 
             <div class="pointer"></div>
 
 
-            <!-- ===============================
-                 SPINNING WHEEL
-                 =============================== -->
+            <!-- WHEEL -->
 
             <svg
                 id="wheel"
                 viewBox="0 0 300 300"
             >
 
-
-                <!-- EASY -->
-
                 <path
                     d="M150,150 L150,10 A140,140 0 0,1 271.24,220 Z"
                     fill="#2ecc71"
-                >
-                </path>
+                ></path>
 
-
-                <!-- MEDIUM -->
 
                 <path
                     d="M150,150 L271.24,220 A140,140 0 0,1 28.76,220 Z"
                     fill="#f1c40f"
-                >
-                </path>
+                ></path>
 
-
-                <!-- HARD -->
 
                 <path
                     d="M150,150 L28.76,220 A140,140 0 0,1 150,10 Z"
                     fill="#e74c3c"
-                >
-                </path>
+                ></path>
 
 
-                <!-- EASY LABEL -->
+                <!-- EASY -->
 
                 <g class="label-g">
 
@@ -734,7 +665,7 @@ svg#wheel {{
                 </g>
 
 
-                <!-- MEDIUM LABEL -->
+                <!-- MEDIUM -->
 
                 <g class="label-g">
 
@@ -750,7 +681,7 @@ svg#wheel {{
                 </g>
 
 
-                <!-- HARD LABEL -->
+                <!-- HARD -->
 
                 <g class="label-g">
 
@@ -765,11 +696,10 @@ svg#wheel {{
 
                 </g>
 
-
             </svg>
 
 
-            <!-- SPIN BUTTON -->
+            <!-- SPIN -->
 
             <div
                 class="hub"
@@ -785,19 +715,15 @@ svg#wheel {{
 
 
     <!-- =================================================
-         RIGHT HALF
+         RIGHT: QUESTION
          ================================================= -->
 
     <div class="right-side">
-
-
-        <!-- QUESTION CARD -->
 
         <div
             class="result"
             id="result"
         >
-
 
             <p
                 class="placeholder"
@@ -805,17 +731,6 @@ svg#wheel {{
             >
                 Click SPIN to get your question.
             </p>
-
-
-        </div>
-
-
-        <!-- QUESTION COUNTER -->
-
-        <div class="score">
-
-            Questions asked:
-            <span id="count">0</span>
 
         </div>
 
@@ -826,42 +741,50 @@ svg#wheel {{
 </div>
 
 
-<!-- =====================================================
-     JAVASCRIPT
-     ===================================================== -->
-
 <script>
 
 
-const bank = {json.dumps(bank)};
+/* =====================================================
+   QUESTION BANK
+   ===================================================== */
+
+const bank = __QUESTION_BANK__;
 
 
-const centers = {{
+/* =====================================================
+   WHEEL CENTERS
+   ===================================================== */
+
+const centers = {
     easy: 60,
     medium: 180,
     hard: 300
-}};
+};
 
+
+/* =====================================================
+   ELEMENTS
+   ===================================================== */
 
 const wheel =
     document.getElementById("wheel");
 
-
 const hub =
     document.getElementById("hub");
-
 
 const result =
     document.getElementById("result");
 
-
 const countEl =
     document.getElementById("count");
-
 
 const labelGroups =
     document.querySelectorAll(".label-g");
 
+
+/* =====================================================
+   VARIABLES
+   ===================================================== */
 
 let currentRotation = 0;
 
@@ -870,21 +793,25 @@ let spinning = false;
 let asked = 0;
 
 
-// =====================================================
-// SHUFFLE POOLS
-// =====================================================
+/* =====================================================
+   QUESTION POOLS
+   ===================================================== */
 
-const pools = {{}};
+const pools = {};
 
 
 Object.keys(bank).forEach(
-    cat => {{
+    function (cat) {
         pools[cat] = [];
-    }}
+    }
 );
 
 
-function shuffledCopy(arr) {{
+/* =====================================================
+   SHUFFLE
+   ===================================================== */
+
+function shuffledCopy(arr) {
 
     const a = arr.slice();
 
@@ -893,7 +820,7 @@ function shuffledCopy(arr) {{
         let i = a.length - 1;
         i > 0;
         i--
-    ) {{
+    ) {
 
         const j =
             Math.floor(
@@ -901,50 +828,46 @@ function shuffledCopy(arr) {{
             );
 
 
-        [
-            a[i],
-            a[j]
-        ] = [
-            a[j],
-            a[i]
-        ];
+        const temp = a[i];
 
-    }}
+        a[i] = a[j];
+
+        a[j] = temp;
+    }
 
 
     return a;
-}}
+}
 
 
-// =====================================================
-// GET NEXT QUESTION
-// =====================================================
+/* =====================================================
+   GET NEXT QUESTION
+   ===================================================== */
 
-function nextQuestion(category) {{
+function nextQuestion(category) {
 
     if (
         pools[category].length === 0
-    ) {{
+    ) {
 
         pools[category] =
             shuffledCopy(
                 bank[category]
             );
-
-    }}
+    }
 
 
     return pools[category].pop();
-}}
+}
 
 
-// =====================================================
-// SPIN BUTTON
-// =====================================================
+/* =====================================================
+   SPIN
+   ===================================================== */
 
 hub.addEventListener(
     "click",
-    () => {{
+    function () {
 
         if (spinning) {
             return;
@@ -967,7 +890,7 @@ hub.addEventListener(
         );
 
 
-        // Choose difficulty
+        /* Choose category */
 
         const names =
             Object.keys(bank);
@@ -982,13 +905,13 @@ hub.addEventListener(
             ];
 
 
-        // Choose question
+        /* Choose question */
 
         const question =
             nextQuestion(category);
 
 
-        // Determine wheel position
+        /* Wheel position */
 
         const center =
             centers[category];
@@ -998,7 +921,7 @@ hub.addEventListener(
             (360 - center + 360) % 360;
 
 
-        // Number of complete spins
+        /* Extra spins */
 
         const extraSpins =
             5 +
@@ -1007,13 +930,13 @@ hub.addEventListener(
             );
 
 
-        // Small random movement
+        /* Small random movement */
 
         const jitter =
             (Math.random() * 20) - 10;
 
 
-        // Calculate final rotation
+        /* Calculate rotation */
 
         currentRotation =
             currentRotation -
@@ -1023,30 +946,32 @@ hub.addEventListener(
             jitter;
 
 
-        // Rotate wheel
+        /* Rotate wheel */
 
         wheel.style.transform =
-            `rotate(${{
-                currentRotation
-            }}deg)`;
+            "rotate(" +
+            currentRotation +
+            "deg)";
 
 
-        // Keep labels upright
+        /* Keep labels upright */
 
         labelGroups.forEach(
-            g => {{
+            function (g) {
 
                 g.style.transform =
-                    `rotate(${{-currentRotation}}deg)`;
+                    "rotate(" +
+                    (-currentRotation) +
+                    "deg)";
 
-            }}
+            }
         );
 
 
-        // Wait until spinning finishes
+        /* Wait for spin */
 
         setTimeout(
-            () => {{
+            function () {
 
                 asked++;
 
@@ -1055,19 +980,18 @@ hub.addEventListener(
                     asked;
 
 
-                // Show question
+                /* Display question */
 
-                result.innerHTML = `
+                result.innerHTML =
+                    '<span class="badge ' +
+                    category +
+                    '">' +
+                    category.toUpperCase() +
+                    '</span>' +
 
-                    <span class="badge ${{category}}">
-                        ${{category.toUpperCase()}}
-                    </span>
-
-                    <div class="question">
-                        ${{question}}
-                    </div>
-
-                `;
+                    '<div class="question">' +
+                    question +
+                    '</div>';
 
 
                 result.classList.add(
@@ -1075,7 +999,7 @@ hub.addEventListener(
                 );
 
 
-                // Enable spin again
+                /* Enable button */
 
                 spinning = false;
 
@@ -1088,11 +1012,11 @@ hub.addEventListener(
                 hub.textContent =
                     "SPIN";
 
-            }},
+            },
             4300
         );
 
-    }}
+    }
 );
 
 
@@ -1103,6 +1027,19 @@ hub.addEventListener(
 
 </html>
 """
+
+
+# =========================================================
+# INSERT QUESTION BANK
+#
+# This replaces the placeholder instead of using an
+# f-string for the entire HTML.
+# =========================================================
+
+wheel_html = wheel_html.replace(
+    "__QUESTION_BANK__",
+    json.dumps(bank)
+)
 
 
 # =========================================================
