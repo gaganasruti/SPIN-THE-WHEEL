@@ -1,8 +1,11 @@
-
+import streamlit
 import streamlit.components.v1 as components
 import json
 import base64
 import os
+
+st = streamlit
+
 
 
 # =========================================================
