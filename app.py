@@ -1,212 +1,831 @@
 import streamlit as st
 import streamlit.components.v1 as components
 import json
+import base64
 
-st.set_page_config(page_title="Spin & Solve", page_icon="🎡", layout="centered")
+st.set_page_config(page_title="Spin the Wheel", page_icon="🎡", layout="wide")
+
 bank = {
     "easy": [
-       " Which process do green plants use to make their own food? " ,
+       " Which process do green plants use to make their own food? ",
 
-" Through which plant part does absorption of water mainly take place? ",
+       " Through which plant part does absorption of water mainly take place? ",
 
-"  Which scientific instrument is used to measure temperature? ",
+       "  Which scientific instrument is used to measure temperature? ",
 
-"  Which acid is naturally found in lemons? ",
+       "  Which acid is naturally found in lemons? ",
 
-" What is known as the basic structural and functional unit of life?",
+       " What is known as the basic structural and functional unit of life?",
     ],
     "medium": [
-      "  In coordinate geometry, what are the coordinates of the origin?" ,
+      "  In coordinate geometry, what are the coordinates of the origin? ",
 
-" An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? ",
+      " An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? ",
 
-"  Which of the following formulas correctly represents pressure? ",
+      "  Which of the following formulas correctly represents pressure? ",
 
-"  Which is a common practical application of a convex mirror?",
+      "  Which is a common practical application of a convex mirror? ",
 
-"  What is the standard SI unit used to measure electric current?" ,
+      "  What is the standard SI unit used to measure electric current? ",
     ],
     "hard": [
        "  If the radius of a circle is doubled, how does its total area change? ",
 
-"  Acceleration is defined as the rate of change of which quantity? ",
+       "  Acceleration is defined as the rate of change of which quantity? ",
 
-"  The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: ",
+       "  The law stating that mass can neither be created nor destroyed in a chemical reaction is known as: ",
 
-"  What is Heron's formula primarily used to calculate? ",
+       "  What is Heron's formula primarily used to calculate? ",
 
-"  Approximately what percentage of Earth's atmosphere consists of nitrogen gas? ",
+       "  Approximately what percentage of Earth's atmosphere consists of nitrogen gas? ",
     ],
 }
 
-# --- Page-level background ---
+
+# ---------------------------------------------------------
+# LOGOS
+# ---------------------------------------------------------
+
+def get_base64_image(path):
+    with open(path, "rb") as f:
+        return base64.b64encode(f.read()).decode()
+
+
+csir_logo = get_base64_image("/mnt/data/CSIR-Logo-removebg-preview.png")
+foundation_logo = get_base64_image("/mnt/data/HOjbKMObQAIrYlw-removebg-preview.png")
+
+
+# ---------------------------------------------------------
+# PAGE BACKGROUND + LOGOS
+# ---------------------------------------------------------
 
 st.markdown(
-    """
+    f"""
     <style>
-    .stApp {
-       background: linear-gradient(135deg, #ffe3ec 0%, #fff6db 35%, #dcf5ea 65%, #e3ecff 100%);
-    }
-    h1, .stCaption, p { color: #3a3550 !important; }
+
+    .stApp {{
+       background: linear-gradient(
+          135deg,
+          #ffe3ec 0%,
+          #fff6db 35%,
+          #dcf5ea 65%,
+          #e3ecff 100%
+       );
+    }}
+
+    h1, .stCaption, p {{
+        color: #3a3550 !important;
+    }}
+
+    /* LEFT LOGO */
+    .top-left-logo {{
+        position: fixed;
+        top: 18px;
+        left: 25px;
+        width: 105px;
+        height: 105px;
+        object-fit: contain;
+        z-index: 9999;
+    }}
+
+    /* RIGHT LOGO */
+    .top-right-logo {{
+        position: fixed;
+        top: 20px;
+        right: 25px;
+        width: 125px;
+        height: 90px;
+        object-fit: contain;
+        z-index: 9999;
+    }}
+
     </style>
+
+    <img
+        class="top-left-logo"
+        src="data:image/png;base64,{csir_logo}"
+    >
+
+    <img
+        class="top-right-logo"
+        src="data:image/png;base64,{foundation_logo}"
+    >
     """,
     unsafe_allow_html=True,
 )
-st.title("🎡 Spin & Solve")
-st.caption("Click the blue SPIN hub in the middle of the wheel.")
+
+st.title("🎡 QUIZ")
+
+
+# ---------------------------------------------------------
+# WHEEL + QUESTION AREA
+# ---------------------------------------------------------
+
 wheel_html = f"""
 <!DOCTYPE html>
 <html>
+
 <head>
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+
+<link
+href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&display=swap"
+rel="stylesheet"
+>
+
 <style>
-  *{{ box-sizing:border-box; }}
-  body{{ margin:0; font-family:'Poppins',sans-serif; background:transparent; }}
-  .wrap{{ display:flex; flex-direction:column; align-items:center; padding-top:14px; }}
- 
-  .wheel-wrap{{
-    position:relative; width:420px; height:420px; max-width:90vw; max-height:90vw; margin-bottom:1.4rem;
-  }}
-  .glow{{
-    position:absolute; inset:-40px; border-radius:50%;
-    background:radial-gradient(circle, rgba(255,255,255,0.7) 0%, rgba(255,255,255,0) 70%);
+
+* {{
+    box-sizing:border-box;
+}}
+
+body {{
+    margin:0;
+    font-family:'Poppins',sans-serif;
+    background:transparent;
+}}
+
+/* MAIN TWO-HALF LAYOUT */
+
+.main-area {{
+    width:100%;
+    min-height:680px;
+
+    display:grid;
+    grid-template-columns:1fr 1fr;
+
+    gap:45px;
+
+    align-items:center;
+
+    padding:20px 35px 30px 35px;
+}}
+
+
+/* LEFT SIDE */
+
+.left-side {{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    width:100%;
+}}
+
+
+/* RIGHT SIDE */
+
+.right-side {{
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    width:100%;
+}}
+
+
+/* WHEEL */
+
+.wheel-wrap {{
+    position:relative;
+
+    width:540px;
+    height:540px;
+
+    max-width:100%;
+    max-height:80vh;
+
+    margin-bottom:1.4rem;
+}}
+
+
+.glow {{
+    position:absolute;
+
+    inset:-50px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle,
+            rgba(255,255,255,0.7) 0%,
+            rgba(255,255,255,0) 70%
+        );
+
     z-index:0;
-  }}
-  .pointer{{
-    position:absolute; top:-16px; left:50%; transform:translateX(-50%); z-index:5;
-    width:0; height:0; border-left:18px solid transparent; border-right:18px solid transparent;
-    border-top:30px solid #2d6cdf; filter:drop-shadow(0 2px 3px rgba(0,0,0,.2));
-  }}
-  svg#wheel{{
-    position:relative; z-index:2; width:100%; height:100%; display:block; border-radius:50%;
-    box-shadow:0 0 0 8px #ffffff, 0 14px 40px rgba(90,80,120,.25);
-    transition: transform 4.2s cubic-bezier(.17,.67,.16,1);
-  }}
-  .seg-label{{ font-weight:800; font-size:18px; fill:#2d2a3a; letter-spacing:.5px; }}
-  .label-g{{
-    transform-box: fill-box;
-    transform-origin: 50% 50%;
-    transition: transform 4.2s cubic-bezier(.17,.67,.16,1);
-  }}
-  .hub{{
-    position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:106px; height:106px;
-    border-radius:50%; background:radial-gradient(circle at 35% 30%,#6fa2ff,#2d6cdf 75%);
-    border:4px solid #ffffff; color:#fff; font-weight:800; font-size:1.1rem; letter-spacing:1px;
-    display:flex; align-items:center; justify-content:center; z-index:6; cursor:pointer;
-    box-shadow:0 6px 16px rgba(45,108,223,.4); transition:transform .15s ease; user-select:none;
-  }}
-  .hub:hover{{ filter:brightness(1.06); }}
-  .hub:active{{ transform:translate(-50%,-50%) scale(.94); }}
-  .hub.disabled{{ opacity:.65; cursor:default; pointer-events:none; }}
- 
-  .result{{
-    width:420px; max-width:90vw; background:#ffffff;
-    border-radius:18px; padding:1.3rem 1.6rem; border:1px solid #f0e4ee;
-    min-height:100px; color:#2d2a3a; box-shadow:0 10px 28px rgba(90,80,120,.15);
-    display:flex; flex-direction:column; justify-content:center; gap:.55rem;
-    opacity:0; transition:opacity .4s ease;
-  }}
-  .result.show{{ opacity:1; }}
-  .badge{{ align-self:flex-start; padding:.28rem .8rem; border-radius:999px; font-size:.78rem; font-weight:700; color:#2d2a3a; }}
-  .badge.easy{{background:#2ecc71;}} .badge.medium{{background:#f1c40f;}} .badge.hard{{background:#e74c3c;}}
-  .question{{ font-size:1.12rem; line-height:1.55; color:#2d2a3a; }}
-  .placeholder{{ color:#8b8599; font-size:.95rem; }}
-  .score{{ margin-top:.9rem; color:#8b8599; font-size:.9rem; }}
-  .score span{{ color:#3a3550; font-weight:700; }}
+}}
+
+
+.pointer {{
+    position:absolute;
+
+    top:-18px;
+    left:50%;
+
+    transform:translateX(-50%);
+
+    z-index:5;
+
+    width:0;
+    height:0;
+
+    border-left:22px solid transparent;
+    border-right:22px solid transparent;
+    border-top:36px solid #2d6cdf;
+
+    filter:drop-shadow(
+        0 2px 3px rgba(0,0,0,.2)
+    );
+}}
+
+
+svg#wheel {{
+    position:relative;
+
+    z-index:2;
+
+    width:100%;
+    height:100%;
+
+    display:block;
+
+    border-radius:50%;
+
+    box-shadow:
+        0 0 0 9px #ffffff,
+        0 18px 45px rgba(90,80,120,.25);
+
+    transition:
+        transform 4.2s cubic-bezier(.17,.67,.16,1);
+}}
+
+
+.seg-label {{
+    font-weight:800;
+    font-size:19px;
+
+    fill:#2d2a3a;
+
+    letter-spacing:.5px;
+}}
+
+
+.label-g {{
+    transform-box:fill-box;
+    transform-origin:50% 50%;
+
+    transition:
+        transform 4.2s cubic-bezier(.17,.67,.16,1);
+}}
+
+
+/* CENTER SPIN BUTTON */
+
+.hub {{
+    position:absolute;
+
+    top:50%;
+    left:50%;
+
+    transform:translate(-50%,-50%);
+
+    width:125px;
+    height:125px;
+
+    border-radius:50%;
+
+    background:
+        radial-gradient(
+            circle at 35% 30%,
+            #6fa2ff,
+            #2d6cdf 75%
+        );
+
+    border:5px solid #ffffff;
+
+    color:#fff;
+
+    font-weight:800;
+    font-size:1.25rem;
+
+    letter-spacing:1px;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    z-index:6;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 7px 18px rgba(45,108,223,.4);
+
+    transition:
+        transform .15s ease;
+
+    user-select:none;
+}}
+
+.hub:hover {{
+    filter:brightness(1.06);
+}}
+
+.hub:active {{
+    transform:
+        translate(-50%,-50%)
+        scale(.94);
+}}
+
+.hub.disabled {{
+    opacity:.65;
+    cursor:default;
+    pointer-events:none;
+}}
+
+
+/* RESULT / QUESTION PANEL */
+
+.result {{
+    width:100%;
+    max-width:600px;
+
+    min-height:260px;
+
+    background:#ffffff;
+
+    border-radius:22px;
+
+    padding:2rem 2.2rem;
+
+    border:1px solid #f0e4ee;
+
+    color:#2d2a3a;
+
+    box-shadow:
+        0 12px 35px rgba(90,80,120,.15);
+
+    display:flex;
+
+    flex-direction:column;
+
+    justify-content:center;
+
+    gap:.75rem;
+
+    opacity:0;
+
+    transition:
+        opacity .4s ease;
+}}
+
+.result.show {{
+    opacity:1;
+}}
+
+
+.badge {{
+    align-self:flex-start;
+
+    padding:.35rem .9rem;
+
+    border-radius:999px;
+
+    font-size:.8rem;
+
+    font-weight:700;
+
+    color:#2d2a3a;
+}}
+
+.badge.easy {{
+    background:#2ecc71;
+}}
+
+.badge.medium {{
+    background:#f1c40f;
+}}
+
+.badge.hard {{
+    background:#e74c3c;
+}}
+
+
+.question {{
+    font-size:1.25rem;
+
+    line-height:1.65;
+
+    color:#2d2a3a;
+}}
+
+
+.placeholder {{
+    color:#8b8599;
+
+    font-size:1.05rem;
+
+    text-align:center;
+}}
+
+
+.score {{
+    margin-top:1.1rem;
+
+    color:#8b8599;
+
+    font-size:.95rem;
+
+    text-align:center;
+}}
+
+.score span {{
+    color:#3a3550;
+
+    font-weight:700;
+}}
+
+
+/* RESPONSIVE */
+
+@media (max-width: 900px) {{
+
+    .main-area {{
+        grid-template-columns:1fr;
+
+        gap:25px;
+
+        padding:10px 15px 30px 15px;
+    }}
+
+    .wheel-wrap {{
+        width:460px;
+        height:460px;
+    }}
+
+    .right-side {{
+        width:100%;
+    }}
+
+    .result {{
+        max-width:600px;
+    }}
+
+}}
+
+
+@media (max-width: 550px) {{
+
+    .main-area {{
+        padding:10px;
+    }}
+
+    .wheel-wrap {{
+        width:360px;
+        height:360px;
+    }}
+
+    .hub {{
+        width:100px;
+        height:100px;
+        font-size:1rem;
+    }}
+
+    .seg-label {{
+        font-size:16px;
+    }}
+
+    .result {{
+        padding:1.4rem;
+        min-height:220px;
+    }}
+
+    .question {{
+        font-size:1.05rem;
+    }}
+
+}}
+
 </style>
+
 </head>
+
+
 <body>
-<div class="wrap">
-  <div class="wheel-wrap">
-    <div class="glow"></div>
-    <div class="pointer"></div>
-    <svg id="wheel" viewBox="0 0 300 300">
-      <path d="M150,150 L150,10 A140,140 0 0,1 271.24,220 Z" fill="#2ecc71"></path>
-      <path d="M150,150 L271.24,220 A140,140 0 0,1 28.76,220 Z" fill="#f1c40f"></path>
-      <path d="M150,150 L28.76,220 A140,140 0 0,1 150,10 Z" fill="#e74c3c"></path>
-      <g class="label-g"><text x="223.6" y="107.5" text-anchor="middle" class="seg-label">EASY</text></g>
-      <g class="label-g"><text x="150" y="240" text-anchor="middle" class="seg-label">MEDIUM</text></g>
-      <g class="label-g"><text x="76.4" y="107.5" text-anchor="middle" class="seg-label">HARD</text></g>
-    </svg>
-    <div class="hub" id="hub">SPIN</div>
-  </div>
-  <div class="result" id="result">
-    <p class="placeholder" id="placeholder">Click SPIN to get your question.</p>
-  </div>
-  <div class="score">Questions asked: <span id="count">0</span></div>
+
+
+<div class="main-area">
+
+
+    <!-- ================= LEFT HALF ================= -->
+
+    <div class="left-side">
+
+        <div class="wheel-wrap">
+
+            <div class="glow"></div>
+
+            <div class="pointer"></div>
+
+
+            <svg id="wheel" viewBox="0 0 300 300">
+
+                <path
+                    d="M150,150 L150,10 A140,140 0 0,1 271.24,220 Z"
+                    fill="#2ecc71">
+                </path>
+
+                <path
+                    d="M150,150 L271.24,220 A140,140 0 0,1 28.76,220 Z"
+                    fill="#f1c40f">
+                </path>
+
+                <path
+                    d="M150,150 L28.76,220 A140,140 0 0,1 150,10 Z"
+                    fill="#e74c3c">
+                </path>
+
+
+                <g class="label-g">
+                    <text
+                        x="223.6"
+                        y="107.5"
+                        text-anchor="middle"
+                        class="seg-label">
+                        EASY
+                    </text>
+                </g>
+
+
+                <g class="label-g">
+                    <text
+                        x="150"
+                        y="240"
+                        text-anchor="middle"
+                        class="seg-label">
+                        MEDIUM
+                    </text>
+                </g>
+
+
+                <g class="label-g">
+                    <text
+                        x="76.4"
+                        y="107.5"
+                        text-anchor="middle"
+                        class="seg-label">
+                        HARD
+                    </text>
+                </g>
+
+            </svg>
+
+
+            <div class="hub" id="hub">
+                SPIN
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- ================= RIGHT HALF ================= -->
+
+    <div class="right-side">
+
+        <div class="result" id="result">
+
+            <p
+                class="placeholder"
+                id="placeholder">
+
+                Click SPIN to get your question.
+
+            </p>
+
+        </div>
+
+
+    </div>
+
+
 </div>
- 
+
+
 <script>
-  const bank = {json.dumps(bank)};
-  const centers = {{ easy: 60, medium: 180, hard: 300 }};
-  const wheel = document.getElementById('wheel');
-  const hub = document.getElementById('hub');
-  const result = document.getElementById('result');
-  const countEl = document.getElementById('count');
-  const labelGroups = document.querySelectorAll('.label-g');
 
-  let currentRotation = 0;
-  let spinning = false;
-  let asked = 0;
+const bank = {json.dumps(bank)};
 
-  // per-category "shuffle bag": each question is asked once before any repeat
-  const pools = {{}};
-  Object.keys(bank).forEach(cat => {{ pools[cat] = []; }});
- 
-  function shuffledCopy(arr) {{
+const centers = {{
+    easy: 60,
+    medium: 180,
+    hard: 300
+}};
+
+
+const wheel =
+    document.getElementById('wheel');
+
+const hub =
+    document.getElementById('hub');
+
+const result =
+    document.getElementById('result');
+
+const countEl =
+    document.getElementById('count');
+
+const labelGroups =
+    document.querySelectorAll('.label-g');
+
+
+let currentRotation = 0;
+
+let spinning = false;
+
+let asked = 0;
+
+
+// per-category "shuffle bag":
+// each question is asked once before any repeat
+
+const pools = {{}};
+
+Object.keys(bank).forEach(cat => {{
+    pools[cat] = [];
+}});
+
+
+function shuffledCopy(arr) {{
+
     const a = arr.slice();
-    for (let i = a.length - 1; i > 0; i--) {{
-      const j = Math.floor(Math.random() * (i + 1));
-      [a[i], a[j]] = [a[j], a[i]];
+
+    for (
+        let i = a.length - 1;
+        i > 0;
+        i--
+    ) {{
+
+        const j =
+            Math.floor(
+                Math.random() * (i + 1)
+            );
+
+        [a[i], a[j]] =
+            [a[j], a[i]];
     }}
+
     return a;
-  }}
-  
-  function nextQuestion(category) {{
-    if (pools[category].length === 0) {{
-      pools[category] = shuffledCopy(bank[category]);
+}}
+
+
+function nextQuestion(category) {{
+
+    if (
+        pools[category].length === 0
+    ) {{
+
+        pools[category] =
+            shuffledCopy(
+                bank[category]
+            );
     }}
+
     return pools[category].pop();
-  }}
-  
-  hub.addEventListener('click', () => {{
-    if (spinning) return;
-    spinning = true;
-    hub.classList.add('disabled');
-    hub.textContent = '...';
-    result.classList.remove('show');
- 
-    const names = Object.keys(bank);
-    const category = names[Math.floor(Math.random() * names.length)];
-    const question = nextQuestion(category);
- 
-    const center = centers[category];
-    const targetMod = (360 - center + 360) % 360;
-    const extraSpins = 5 + Math.floor(Math.random() * 3);
-    const jitter = (Math.random() * 20) - 10;
-    currentRotation = currentRotation - (currentRotation % 360) + extraSpins * 360 + targetMod + jitter;
- 
-    wheel.style.transform = `rotate(${{currentRotation}}deg)`;
-    // counter-rotate every label around its own center so it stays upright
-    labelGroups.forEach(g => {{
-      g.style.transform = `rotate(${{-currentRotation}}deg)`;
-    }});
- 
-    setTimeout(() => {{
-      asked++;
-      countEl.textContent = asked;
-      result.innerHTML = `
-        <span class="badge ${{category}}">${{category.toUpperCase()}}</span>
-        <div class="question">${{question}}</div>
-      `;
-      result.classList.add('show');
-      spinning = false;
-      hub.classList.remove('disabled');
-      hub.textContent = 'SPIN';
-    }}, 4300);
-  }});
+}}
+
+
+hub.addEventListener(
+    'click',
+    () => {{
+
+        if (spinning) return;
+
+        spinning = true;
+
+        hub.classList.add('disabled');
+
+        hub.textContent = '...';
+
+        result.classList.remove('show');
+
+
+        const names =
+            Object.keys(bank);
+
+        const category =
+            names[
+                Math.floor(
+                    Math.random() *
+                    names.length
+                )
+            ];
+
+
+        const question =
+            nextQuestion(category);
+
+
+        const center =
+            centers[category];
+
+
+        const targetMod =
+            (360 - center + 360) % 360;
+
+
+        const extraSpins =
+            5 +
+            Math.floor(
+                Math.random() * 3
+            );
+
+
+        const jitter =
+            (Math.random() * 20) - 10;
+
+
+        currentRotation =
+            currentRotation -
+            (currentRotation % 360) +
+            extraSpins * 360 +
+            targetMod +
+            jitter;
+
+
+        wheel.style.transform =
+            `rotate(${{currentRotation}}deg)`;
+
+
+        // counter-rotate every label
+        // around its own center
+        // so it stays upright
+
+        labelGroups.forEach(g => {{
+
+            g.style.transform =
+                `rotate(${{-currentRotation}}deg)`;
+
+        }});
+
+
+        setTimeout(
+            () => {{
+
+                asked++;
+
+                countEl.textContent =
+                    asked;
+
+
+                result.innerHTML = `
+
+                    <span class="badge ${{category}}">
+                        ${{category.toUpperCase()}}
+                    </span>
+
+                    <div class="question">
+                        ${{question}}
+                    </div>
+
+                `;
+
+
+                result.classList.add(
+                    'show'
+                );
+
+
+                spinning = false;
+
+                hub.classList.remove(
+                    'disabled'
+                );
+
+                hub.textContent =
+                    'SPIN';
+
+            }},
+            4300
+        );
+
+    }}
+);
+
 </script>
+
+
 </body>
+
 </html>
 """
-components.html(wheel_html, height=740, scrolling=False)
+
+
+components.html(
+    wheel_html,
+    height=760,
+    scrolling=False
+)
