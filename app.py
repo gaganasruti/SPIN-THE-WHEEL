@@ -19,7 +19,7 @@ bank = {
     "medium": [
       " 1. In coordinate geometry, what are the coordinates of the origin?" 
 
-"2. An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change?
+"2. An object's velocity will change if there is a change in its speed, direction, or both ? Which defines that change? "
 
 " 3. Which of the following formulas correctly represents pressure? "
 
